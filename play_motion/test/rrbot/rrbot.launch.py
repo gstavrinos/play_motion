@@ -50,7 +50,8 @@ def generate_launch_description():
         package='controller_manager',
         executable='ros2_control_node',
         parameters=[robot_description, rrbot_controllers],
-        output={'stdout': 'screen', 'stderr': 'screen'})
+        #  output={'stdout': 'screen', 'stderr': 'screen'}
+        )
 
     controllers = include_launch_py_description(
         'play_motion', ['test', 'controllers.launch.py'])
@@ -65,7 +66,7 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        output={'stdout': 'screen', 'stderr': 'log'},
+        #  output={'stdout': 'screen', 'stderr': 'log'},
         arguments=['-d', rviz_config_file],
         condition=IfCondition(rviz)
     )

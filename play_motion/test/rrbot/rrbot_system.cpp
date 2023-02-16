@@ -26,7 +26,7 @@
 namespace play_motion
 {
 
-CallbackReturn RRBotSystem::on_init(
+hardware_interface::CallbackReturn RRBotSystem::on_init(
   const hardware_interface::HardwareInfo & info)
 {
   info_ = info;
@@ -117,7 +117,7 @@ RRBotSystem::export_command_interfaces()
 }
 
 
-hardware_interface::return_type RRBotSystem::read()
+hardware_interface::return_type RRBotSystem::read(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
   for (uint i = 0; i < position_states_.size(); i++) {
     position_states_[i] = position_commands_[i];
@@ -128,7 +128,7 @@ hardware_interface::return_type RRBotSystem::read()
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type RRBotSystem::write()
+hardware_interface::return_type RRBotSystem::write(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
   return hardware_interface::return_type::OK;
 }

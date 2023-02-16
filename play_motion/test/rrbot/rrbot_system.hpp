@@ -33,7 +33,7 @@ class RRBotSystem : public hardware_interface::SystemInterface
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(RRBotSystem);
   PLAY_MOTION_PUBLIC
-  CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
+  hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
 
   PLAY_MOTION_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -42,10 +42,10 @@ public:
   std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
   PLAY_MOTION_PUBLIC
-  hardware_interface::return_type read() override;
+  hardware_interface::return_type read(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
   PLAY_MOTION_PUBLIC
-  hardware_interface::return_type write() override;
+  hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
 private:
   std::vector<double> position_commands_;

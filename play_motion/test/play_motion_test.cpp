@@ -102,7 +102,24 @@ public:
     // set up goal options
     auto goal_options = rclcpp_action::Client<PlayMotionAction>::SendGoalOptions();
     goal_options.goal_response_callback =
-      [&](std::shared_future<rclcpp_action::ClientGoalHandle<PlayMotionAction>::SharedPtr> future)
+      // // [&](std::shared_future<rclcpp_action::ClientGoalHandle<PlayMotionAction>::SharedPtr> future)
+      [&](const auto future)
+      {
+        auto goal_handle = future.get();
+        if (!goal_handle) {
+          goal_accepted_ = false;
+          RCLCPP_ERROR_STREAM(get_logger(), "Goal was rejected by server");
+        } else {
+          goal_accepted_ = true;
+          RCLCPP_INFO_STREAM(get_logger(), "Goal accepted by server, waiting for result");
+        }
+      };
+
+
+
+    goal_options.goal_response_callback =
+      // [&](std::shared_future<rclcpp_action::ClientGoalHandle<PlayMotionAction>::SharedPtr> future)
+      [&](const auto future)
       {
         auto goal_handle = future.get();
         if (!goal_handle) {
