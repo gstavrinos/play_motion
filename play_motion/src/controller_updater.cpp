@@ -77,8 +77,9 @@ void ControllerUpdater::mainLoop()
 //        RCLCPP_ERROR(logger_, "Failed to call list controllers service");
 //      }
 
-    result.wait();
-    if (!result.get()) {
+    // Change for https://github.com/ros2/rclcpp/pull/1734
+    auto response = result.get();
+    if (!response) {
       RCLCPP_ERROR(logger_, "Failed to call list controllers service");
       return;
     }
@@ -87,7 +88,7 @@ void ControllerUpdater::mainLoop()
     ControllerJoints joints;
     using cstate_t = controller_manager_msgs::msg::ControllerState;
 
-    for (const cstate_t & cs : result.get()->controller) {
+    for (const cstate_t & cs : response->controller) {
       if (!isJointTrajectoryController(cs.type)) {
         continue;
       }
